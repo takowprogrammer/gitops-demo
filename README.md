@@ -91,6 +91,23 @@ git push origin main
 2. The Action will automatically build your Docker container, push it to GitHub Container Registry, and then **commit an update** to your `manifests/deployment.yaml` file with the new Image TAG.
 3. Open your ArgoCD UI (`https://localhost:8080`). Watch the `myapp-staging` application. ArgoCD will detect the Action's commit and seamlessly rollout version 2.0.0 to your Staging cluster!
 
+### Alternative Step 4: Manual CI/CD (If GitHub Actions are disabled)
+If your GitHub Actions are locked due to billing, you can act as the CI pipeline yourself!
+1. **Build and push the image to Docker Hub:**
+   ```bash
+   docker build -t takowtakow/gitops-demo:v2.0.0 -f ./app/Dockerfile ./app
+   docker login
+   docker push takowtakow/gitops-demo:v2.0.0
+   ```
+2. **Update the Manifest:** Open `manifests/deployment.yaml` and manually change the `image:` line to example `takowtakow/gitops-demo:v2.0.0`.
+3. **Commit the Manifest Change:** Tell ArgoCD to deploy by pushing the updated YAML to Git:
+   ```bash
+   git add manifests/deployment.yaml
+   git commit -m "deploy: update image tag for Staging"
+   git push origin main
+   ```
+4. Watch ArgoCD magically detect your update and roll out v2.0.0 to Staging!
+
 ---
 
 ## Step 5: Environment Promotion (Deploying to Production)
