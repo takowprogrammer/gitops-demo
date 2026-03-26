@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/<YOUR_GITHUB_USERNAME>/gitops-demo.git'
+    repoURL: 'https://github.com/takowprogrammer/gitops-demo.git'
     targetRevision: main # Staging tracks the main branch
     path: manifests
   destination:
@@ -16,5 +16,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
-  syncOptions:
-    - CreateNamespace=true
+    syncOptions:
+      - CreateNamespace=true

@@ -60,7 +60,7 @@ git checkout main
 ---
 
 ## Step 3: Tell ArgoCD to Track Your Environments
-We have two ArgoCD Application files pre-configured for you in the `argocd/` folder.
+We have two ArgoCD Application files in the `argocd/` folder.
 *Before running this step, please open both `argocd/staging.yaml` and `argocd/production.yaml` and replace `<YOUR_GITHUB_USERNAME>` with your actual GitHub username.*
 
 Apply them to your cluster:
