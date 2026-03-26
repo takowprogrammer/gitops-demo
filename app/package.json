@@ -1,0 +1,10 @@
+{
+  "name": "gitops-demo-app",
+  "version": "1.0.0",
+  "description": "A simple app for a GitOps Demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {}
+}

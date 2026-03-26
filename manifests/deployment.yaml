@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitops-demo-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitops-demo-app
+  template:
+    metadata:
+      labels:
+        app: gitops-demo-app
+    spec:
+      containers:
+        - name: app
+          # The GitHub Action will automatically replace this tag when you push code!
+          image: ghcr.io/<YOUR_GITHUB_USERNAME>/gitops-demo:latest
+          ports:
+            - containerPort: 3000

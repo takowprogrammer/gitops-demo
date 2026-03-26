@@ -1,0 +1,57 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**' # Only trigger if source code changes
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # Required to push the manifest changes back to Git
+      packages: write    # Required to push to GitHub Container Registry
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+
+      - name: Generate Image Tag
+        id: meta
+        run: |
+          # Use the first 7 characters of the commit hash as the image tag
+          echo "TAG=sha-${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./app
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+
+      - name: Update Kubernetes Manifest in Git
+        run: |
+          echo "Updating deployment.yaml with new image tag: ${{ env.TAG }}"
+          
+          # Replace the old image tag with the newly built one
+          sed -i "s|image: ghcr.io/.*|image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}|g" manifests/deployment.yaml
+          
+          # Commit and Push the change back to the repository
+          git config --global user.name 'GitHub Actions (GitOps)'
+          git config --global user.email 'actions@github.com'
+          git add manifests/deployment.yaml
+          git commit -m "chore: update image tag to ${{ env.TAG }} [skip ci]"
+          git push

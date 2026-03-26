@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: guestbook
+  namespace: argocd
+spec:
+  project: default
+  source:
+    # The Git repository ArgoCD will monitor
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    targetRevision: HEAD
+    path: guestbook
+  destination:
+    # Where to deploy the application (the cluster it's running on)
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true      # Automatically delete resources if they are removed from Git
+      selfHeal: true   # Automatically revert any manual changes made directly to the cluster
