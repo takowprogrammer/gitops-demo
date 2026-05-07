@@ -16,6 +16,6 @@ spec:
       containers:
         - name: app
           # The GitHub Action will automatically replace this tag when you push code!
-          image: takowtakow/gitops-demo:v1.0.0
+          image: takowtakow/gitops-demo:v4.0.1
           ports:
             - containerPort: 3000
