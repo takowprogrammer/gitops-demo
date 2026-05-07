@@ -11,7 +11,7 @@ By the end of this tutorial, you will have a fully functioning pipeline that:
 ---
 
 ## Prerequisites
-- **Rancher Desktop** installed and running.
+- **Rancher Desktop or Dokcer Desktop** installed and running.
 - **`kubectl`** CLI tool installed.
 - A **GitHub Account**.
 
