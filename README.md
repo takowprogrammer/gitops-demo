@@ -21,7 +21,10 @@ Open your terminal and install ArgoCD on your local cluster:
 kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --server-side
 ```
-
+Wait a couple of minutes for the argocd to be setup. Check if the pods are running with: 
+```bash
+kubectl get pods -n argocd
+``` 
 Forward the port and get your admin password to log into `https://localhost:8080`:
 ```bash
 # Keep this running in one terminal
