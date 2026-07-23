@@ -1,6 +1,6 @@
 const http = require('http');
 
-const version = "1.0.1"; // Students will modify this!
+const version = "1.0.0"; // Students will modify this!
 const port = 3000;
 
 const server = http.createServer((req, res) => {
